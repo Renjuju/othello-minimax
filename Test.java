@@ -1,5 +1,3 @@
-package cs380.othello;
-
 /**
  *
  * @author santi

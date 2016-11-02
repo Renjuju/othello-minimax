@@ -1,5 +1,3 @@
-package cs380.othello;
-
 import java.util.LinkedList;
 import java.util.List;
 

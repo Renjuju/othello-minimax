@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-package cs380.othello;
-
 import java.util.List;
 import java.util.Random;
 
