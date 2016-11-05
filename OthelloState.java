@@ -102,7 +102,15 @@ public class OthelloState {
         newState.nextPlayerToMove = nextPlayerToMove;
         return newState;
     }
-    
+
+    public OthelloState stateClone() {
+        OthelloState newState = new OthelloState(boardSize);
+        for(int i = 0;i<boardSize;i++)
+            for(int j = 0;j<boardSize;j++)
+                newState.board[i][j] = board[i][j];
+        //newState.nextPlayerToMove = nextPlayerToMove;
+        return newState;
+    }
     
     /*
      * Determines whether the game is over or not
@@ -221,6 +229,12 @@ public class OthelloState {
      */
     public OthelloState applyMoveCloning(OthelloMove move) {
         OthelloState newState = clone();
+        newState.applyMove(move);
+        return newState;
+    }
+
+    public OthelloState applyMoveStateCloning(OthelloMove move) {
+        OthelloState newState = stateClone();
         newState.applyMove(move);
         return newState;
     }
