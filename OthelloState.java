@@ -1,5 +1,5 @@
-package cs380.othello;
-
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class OthelloState {
     int board[][] = null;
     int nextPlayerToMove = PLAYER1;
     
-    
+    OthelloMove previousMove;
     /*
      * Constructor of the game state, it creates a board with the initial state for the game of Othello    
      */
@@ -39,7 +39,13 @@ public class OthelloState {
         board[boardSize/2][boardSize/2-1] = PLAYER2;
     }
     
-    
+    public void setPreviousMove(OthelloMove previousMove) {
+        this.previousMove = previousMove;
+    }
+
+    public OthelloMove getPreviousMove() {
+        return this.previousMove;
+    }
     /*
      * Converts a game board to a string, for displaying it via the console    
      */
@@ -55,12 +61,40 @@ public class OthelloState {
         }
         return output.toString();
     }
-    
-    
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public void printBoard() {
+        String str;
+        int xCount = 0;
+        int oCount = 0;
+        for (int[] aBoard : board) {
+            for (int anABoard : aBoard) {
+                if(anABoard == 1) {
+                    str = "X";
+                    xCount++;
+                } else if(anABoard == 0) {
+                    str = "O";
+                    oCount++;
+                } else {
+                    str = "-";
+                }
+                System.out.printf("%4s", str);
+            }
+            System.out.println();
+        }
+        Arrays.deepToString(board);
+        System.out.println("X points: " + xCount);
+        System.out.println("O points: " + oCount);
+        System.out.println((char)27 + "[31m---------------------------------" + (char)27 + "[0m");
+    }
     /*
      * Makes a copy of a game state
      */
     public OthelloState clone() {
+
         OthelloState newState = new OthelloState(boardSize);
         for(int i = 0;i<boardSize;i++)
             for(int j = 0;j<boardSize;j++)
@@ -68,7 +102,15 @@ public class OthelloState {
         newState.nextPlayerToMove = nextPlayerToMove;
         return newState;
     }
-    
+
+    public OthelloState stateClone() {
+        OthelloState newState = new OthelloState(boardSize);
+        for(int i = 0;i<boardSize;i++)
+            for(int j = 0;j<boardSize;j++)
+                newState.board[i][j] = board[i][j];
+        //newState.nextPlayerToMove = nextPlayerToMove;
+        return newState;
+    }
     
     /*
      * Determines whether the game is over or not
@@ -187,6 +229,12 @@ public class OthelloState {
      */
     public OthelloState applyMoveCloning(OthelloMove move) {
         OthelloState newState = clone();
+        newState.applyMove(move);
+        return newState;
+    }
+
+    public OthelloState applyMoveStateCloning(OthelloMove move) {
+        OthelloState newState = stateClone();
         newState.applyMove(move);
         return newState;
     }
